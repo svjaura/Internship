@@ -1,0 +1,3 @@
+Hi {name},
+
+Bumping this in case it got buried. I'd still like to build {short_company} a quick demo of {workflow}. Would 15 minutes after school or on Zoom next week work?
