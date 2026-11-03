@@ -1,0 +1,5 @@
+google-api-python-client>=2.100
+google-auth-oauthlib>=1.1
+google-auth-httplib2>=0.1
+# Only needed for /debrief (local transcription). Install when you need it:
+# faster-whisper>=1.0

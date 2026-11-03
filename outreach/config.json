@@ -1,0 +1,15 @@
+{
+  "timezone": "America/Chicago",
+  "daily_cap": 25,
+  "send_window": {"start": "07:45", "end": "09:30"},
+  "gap_minutes": {"min": 2, "max": 5},
+  "followup_business_days": 8,
+  "bounce_pause_threshold": 0.03,
+  "max_pending_meetings": 5,
+  "first_touch_max_words": 120,
+  "resume_path": "resume.pdf",
+  "holidays": ["2026-11-26", "2026-11-27", "2026-12-24", "2026-12-25", "2026-12-31", "2027-01-01", "2027-01-18"],
+  "metro_cities": ["Birmingham", "Hoover", "Homewood", "Vestavia Hills", "Mountain Brook", "Trussville", "Pelham", "Alabaster", "Bessemer"],
+  "campaign_target": 200,
+  "mix_targets": {"professional": 0.30, "field": 0.25, "nonprofit": 0.20, "other": 0.25}
+}

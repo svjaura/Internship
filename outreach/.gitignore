@@ -1,0 +1,34 @@
+# This repo is public. Nothing private goes in git.
+
+# Google OAuth: never commit
+secrets/*
+!secrets/README.md
+credentials.json
+token.json
+
+# Prospect data, deal notes, the database and generated pages
+data/*.db
+data/*.db-*
+data/fake_gmail.json
+data/backups/
+data/import/*
+!data/import/.gitkeep
+review.html
+reports/*
+!reports/.gitkeep
+demos/*
+!demos/.gitkeep
+meetings/*
+!meetings/.gitkeep
+
+# Personal info
+resume.pdf
+profile.local.md
+sender.local.json
+*.local.*
+.state/
+
+# Python
+.venv/
+__pycache__/
+*.pyc

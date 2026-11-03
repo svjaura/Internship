@@ -1,0 +1,17 @@
+{
+  "name": "Your Name",
+  "first_name": "First",
+  "email": "you@gmail.com",
+  "phone": "(205) 555-0100",
+  "linkedin": "linkedin.com/in/your-name",
+  "postal_address": "",
+  "resume_attachment_name": "Your Name Resume.pdf",
+  "intro_line": "I'm First, a senior at Your High School in Your Town.",
+  "proof_line": "One or two sentences about the thing you built and the one result you can prove.",
+  "proof_claim": "the exact result sentence fragment that must appear word for word",
+  "proof_keywords": ["ProjectName", "EmployerName"],
+  "availability": {
+    "weekday": [["08:00", "09:00"], ["14:30", "17:30"]],
+    "weekend": [["10:00", "17:00"]]
+  }
+}
