@@ -1,7 +1,8 @@
 {
-  "name": "cahabalabs",
+  "name": "vajaha",
   "private": true,
+  "type": "module",
   "scripts": {
-    "build": "mkdir -p dist && cp index.html dist/index.html && curl -fsSL https://halfpan.app/photos/sai-head-900.jpg -o dist/sai.jpg"
+    "build": "node build.mjs"
   }
 }
