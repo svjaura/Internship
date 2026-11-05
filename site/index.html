@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cahaba Labs | AI that takes the paperwork off your team</title>
+<meta name="description" content="Cahaba Labs builds AI tools for Alabama businesses. Forms, quotes, reports and follow-ups done in minutes, checked, and ready for your team to send.">
+<meta property="og:title" content="Cahaba Labs">
+<meta property="og:description" content="AI that takes the paperwork off your team. Built in Hoover, Alabama.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/sai.jpg">
+<meta name="theme-color" content="#14201f">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2314201f'/%3E%3Cpath d='M12 38c7-8 13-8 20 0s13 8 20 0' fill='none' stroke='%2362c2b5' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M12 26c7-8 13-8 20 0s13 8 20 0' fill='none' stroke='%23f7f5f0' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #14201f;
+    --paper: #f7f5f0;
+    --card: #ffffff;
+    --muted: #56625e;
+    --line: #e2ddd2;
+    --accent: #1f6f68;
+    --accent-soft: #e3f1ee;
+    --clay: #b9542c;
+    --radius: 14px;
+    --max: 1120px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.6 Inter, system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+  h1, h2, h3 { font-family: Fraunces, Georgia, serif; font-weight: 600; line-height: 1.15; margin: 0 0 .5em; letter-spacing: -0.01em; }
+  h1 { font-size: clamp(2.3rem, 5.4vw, 4rem); }
+  h2 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); }
+  h3 { font-size: 1.2rem; }
+  p { margin: 0 0 1em; }
+  .eyebrow { font-size: .8rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: .8rem; }
+  .muted { color: var(--muted); }
+
+  /* nav */
+  header.top { position: sticky; top: 0; z-index: 10; background: rgba(247,245,240,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .nav { display: flex; align-items: center; gap: 24px; height: 66px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 1.2rem; text-decoration: none; }
+  .brand svg { width: 30px; height: 30px; }
+  .nav nav { margin-left: auto; display: flex; gap: 22px; }
+  .nav nav a { text-decoration: none; font-size: .95rem; color: var(--muted); }
+  .nav nav a:hover { color: var(--ink); }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; font-weight: 600; font-size: .95rem; text-decoration: none; border: 1.5px solid var(--ink); transition: transform .15s ease, background .15s ease; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn.solid { background: var(--ink); color: var(--paper); }
+  .btn.solid:hover { background: #24332f; }
+  .btn.ghost { background: transparent; }
+  .nav .btn { padding: 9px 16px; }
+
+  /* hero */
+  .hero { padding: 84px 0 64px; }
+  .hero-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 56px; align-items: center; }
+  .hero p.lede { font-size: 1.2rem; color: var(--muted); max-width: 34em; }
+  .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0 18px; }
+  .hero .where { font-size: .92rem; color: var(--muted); }
+  .portrait { position: relative; }
+  .portrait img { border-radius: 22px; aspect-ratio: 4 / 5; object-fit: cover; width: 100%; box-shadow: 0 24px 60px -28px rgba(20,32,31,.45); }
+  .portrait .tag { position: absolute; left: -18px; bottom: 22px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; font-size: .85rem; box-shadow: 0 10px 30px -18px rgba(20,32,31,.5); }
+  .portrait .tag b { display: block; font-size: .95rem; }
+
+  /* proof */
+  .proof { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--card); }
+  .proof-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .proof-item { padding: 30px 24px; border-left: 1px solid var(--line); }
+  .proof-item:first-child { border-left: 0; }
+  .proof-item .big { font-family: Fraunces, Georgia, serif; font-size: 1.6rem; font-weight: 600; margin-bottom: 6px; }
+  .proof-item p { margin: 0; color: var(--muted); font-size: .95rem; }
+
+  section.block { padding: 88px 0; }
+  .section-head { max-width: 40em; margin-bottom: 40px; }
+
+  /* services */
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; }
+  .card .icon { width: 42px; height: 42px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; margin-bottom: 16px; }
+  .card .icon svg { width: 22px; height: 22px; }
+  .card p { color: var(--muted); margin: 0; font-size: .98rem; }
+
+  /* work */
+  .work { background: var(--ink); color: var(--paper); }
+  .work .eyebrow { color: #62c2b5; }
+  .work .muted { color: #b9c4c0; }
+  .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .work-card { border: 1px solid rgba(247,245,240,.16); border-radius: var(--radius); padding: 28px; display: flex; flex-direction: column; }
+  .work-card .kind { font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: #62c2b5; font-weight: 600; margin-bottom: 10px; }
+  .work-card p { color: #d5ddda; font-size: .98rem; }
+  .work-card .result { margin-top: auto; padding-top: 14px; border-top: 1px solid rgba(247,245,240,.16); font-weight: 600; color: var(--paper); font-size: .95rem; }
+  .work-card a { color: #62c2b5; }
+
+  /* steps */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; counter-reset: step; }
+  .step { padding: 24px; border-radius: var(--radius); background: var(--card); border: 1px solid var(--line); }
+  .step::before { counter-increment: step; content: counter(step); display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: var(--paper); font-weight: 600; margin-bottom: 14px; }
+  .step p { color: var(--muted); margin: 0; font-size: .97rem; }
+  .assure { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px 26px; color: var(--muted); font-size: .95rem; }
+  .assure span::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-right: 9px; vertical-align: middle; }
+
+  /* companies */
+  .companies { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .company { display: flex; gap: 18px; align-items: flex-start; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; text-decoration: none; }
+  .company:hover { border-color: var(--accent); }
+  .company .mark { flex: none; width: 52px; height: 52px; border-radius: 12px; display: grid; place-items: center; font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 1.3rem; }
+  .company p { margin: 0; color: var(--muted); font-size: .97rem; }
+  .company .link { display: inline-block; margin-top: 8px; color: var(--accent); font-weight: 600; font-size: .92rem; }
+
+  /* about */
+  .about-grid { display: grid; grid-template-columns: .7fr 1.3fr; gap: 56px; align-items: start; border-top: 1px solid var(--line); padding-top: 56px; }
+  .facts { list-style: none; padding: 0; margin: 22px 0 26px; display: grid; gap: 10px; }
+  .facts li { padding-left: 26px; position: relative; }
+  .facts li::before { content: ""; position: absolute; left: 0; top: .6em; width: 12px; height: 2px; background: var(--clay); }
+
+  /* contact */
+  .contact { background: var(--accent); color: #fff; border-radius: 26px; padding: 56px; display: grid; grid-template-columns: 1.2fr .8fr; gap: 40px; align-items: center; }
+  .contact h2 { color: #fff; }
+  .contact p { color: #d9efeb; font-size: 1.08rem; }
+  .contact .btn { border-color: #fff; }
+  .contact .btn.solid { background: #fff; color: var(--ink); }
+  .contact .btn.ghost { color: #fff; }
+  .contact .lines { display: grid; gap: 12px; }
+  .contact .lines a { text-decoration: none; }
+
+  footer { padding: 40px 0 56px; color: var(--muted); font-size: .9rem; }
+  .foot { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; border-top: 1px solid var(--line); padding-top: 26px; }
+  .foot .spacer { flex: 1; }
+
+  @media (max-width: 900px) {
+    .nav nav { display: none; }
+    .nav .btn { margin-left: auto; }
+    .hero { padding: 48px 0 44px; }
+    .hero-grid, .about-grid, .contact { grid-template-columns: 1fr; }
+    .portrait { max-width: 360px; }
+    .portrait .tag { left: 12px; }
+    .proof-grid, .cards, .work-grid, .companies { grid-template-columns: 1fr; }
+    .proof-item { border-left: 0; border-top: 1px solid var(--line); }
+    .proof-item:first-child { border-top: 0; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    section.block { padding: 64px 0; }
+    .contact { padding: 34px 24px; }
+    .about-grid { gap: 8px; padding-top: 40px; }
+  }
+  @media (max-width: 520px) { .steps { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Cahaba Labs home">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#14201f"/><path d="M12 38c7-8 13-8 20 0s13 8 20 0" fill="none" stroke="#62c2b5" stroke-width="6" stroke-linecap="round"/><path d="M12 26c7-8 13-8 20 0s13 8 20 0" fill="none" stroke="#f7f5f0" stroke-width="6" stroke-linecap="round"/></svg>
+      Cahaba Labs
+    </a>
+    <nav aria-label="Main">
+      <a href="#build">What we build</a>
+      <a href="#work">Work</a>
+      <a href="#how">How it works</a>
+      <a href="#companies">Companies</a>
+      <a href="#about">About</a>
+    </nav>
+    <a class="btn solid" href="#contact">Get a free demo</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">AI for Alabama businesses</div>
+        <h1>AI that takes the paperwork off your team.</h1>
+        <p class="lede">Cahaba Labs builds AI tools for small teams. Forms, quotes, reports and follow-ups get done in minutes, checked, and handed to your team ready to send.</p>
+        <div class="actions">
+          <a class="btn solid" href="mailto:vs.saicharan@gmail.com?subject=Free%20demo%20for%20my%20business">Get a free demo on your files</a>
+          <a class="btn ghost" href="#work">See the work</a>
+        </div>
+        <div class="where">Based in Hoover. Working with businesses across Alabama.</div>
+      </div>
+      <div class="portrait">
+        <img src="/sai.jpg" width="900" height="1125" alt="Sai Vajaha, founder of Cahaba Labs, in a navy blazer with arms crossed">
+        <div class="tag"><b>Sai Vajaha</b>Founder, Cahaba Labs</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proof" aria-label="Results">
+    <div class="wrap proof-grid">
+      <div class="proof-item">
+        <div class="big">$15,000 to $20,000 a month</div>
+        <p>Waypoint has recorded $15,000 to $20,000 a month in savings from MoveShare.</p>
+      </div>
+      <div class="proof-item">
+        <div class="big">Every line checked</div>
+        <p>Our deal sheet system checks each number against the source files before anything goes out.</p>
+      </div>
+      <div class="proof-item">
+        <div class="big">One business day</div>
+        <p>Turnaround on new files once your system is running.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="build">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">What we build</div>
+        <h2>The work your team retypes every week, done for you.</h2>
+        <p class="muted">Every tool is built on your real files and your real process. Nothing gets sent without your team checking it first.</p>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></div>
+          <h3>Forms and deal sheets</h3>
+          <p>A planner or spreadsheet goes in. Every customer's form comes out filled in, split into pages, and checked.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h3M8 15h3M14 11h2M14 15h2"/></svg></div>
+          <h3>Quotes and estimates</h3>
+          <p>Photos, notes or an RFQ turn into a draft quote your team reviews and sends the same day.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg></div>
+          <h3>Missing documents</h3>
+          <p>Track what each client still owes you and send the reminder before anyone has to chase it.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16M8 15v-4M12 15V8M16 15v-6"/></svg></div>
+          <h3>Reports and recaps</h3>
+          <p>Monthly reports, client recaps and meeting notes written from the data you already have.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H5.2L4 17.2z"/><path d="M8 9h8M8 12h5"/></svg></div>
+          <h3>Inbox sorting</h3>
+          <p>Incoming requests get sorted, the details pulled out, and a reply drafted for your team to approve.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M8 11h6"/></svg></div>
+          <h3>Order and price checks</h3>
+          <p>Orders, invoices and price changes compared against what was agreed, with anything off flagged.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block work" id="work">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Work</div>
+        <h2>Built for real teams, on their real files.</h2>
+        <p class="muted">Business names stay private unless they say otherwise.</p>
+      </div>
+      <div class="work-grid">
+        <article class="work-card">
+          <div class="kind">Logistics · Waypoint Investments</div>
+          <h3>MoveShare</h3>
+          <p>Through QuantHub's Alabama Data Scholars internship, a teammate and I built MoveShare. It pulls moves from Waypoint's Salesforce, finds moves that can share a truck and route, and emails a daily report.</p>
+          <div class="result">Waypoint has recorded $15,000 to $20,000 a month in savings from it.</div>
+        </article>
+        <article class="work-card">
+          <div class="kind">Food broker · Demo</div>
+          <h3>Deal sheets in seconds</h3>
+          <p>A broker's promo planner and item list go in. Every customer deal sheet comes out on the customer's own form, split into pages, with each line checked against the source files.</p>
+          <div class="result">The first run caught pricing and item code mistakes before anything went out.</div>
+        </article>
+        <article class="work-card">
+          <div class="kind">Restaurants · Our company</div>
+          <h3>Half Pan</h3>
+          <p>A free app that helps kitchen crews weigh what they throw out and make less of it. Started at our family's Qdoba in Hoover with co-founder Jai Varikuti.</p>
+          <div class="result"><a href="https://halfpan.app" target="_blank" rel="noopener">halfpan.app</a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">How it works</div>
+        <h2>You see it working before you pay for it.</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><h3>A 15-minute call</h3><p>Tell me the task your team retypes most and send a sample file.</p></div>
+        <div class="step"><h3>A free demo</h3><p>I build a working version on your real files so you can see it next to how you do it now.</p></div>
+        <div class="step"><h3>A flat price</h3><p>You know the cost up front. Half to start, half when you sign off that it works.</p></div>
+        <div class="step"><h3>We keep it running</h3><p>Send new files, get finished work back within one business day. Stop the monthly plan anytime.</p></div>
+      </div>
+      <div class="assure">
+        <span>Your team checks everything before it goes out</span>
+        <span>Your files stay private and are only used for your project</span>
+        <span>Everything we build is yours to keep</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="companies" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Companies</div>
+        <h2>Everything we build lives here.</h2>
+      </div>
+      <div class="companies">
+        <a class="company" href="#build">
+          <div class="mark" style="background:var(--accent-soft);color:var(--accent)">C</div>
+          <div><h3>Cahaba Labs Automation</h3><p>AI tools that take repetitive office work off small teams across Alabama.</p><span class="link">What we build</span></div>
+        </a>
+        <a class="company" href="https://halfpan.app" target="_blank" rel="noopener">
+          <div class="mark" style="background:#fbe9e1;color:var(--clay)">H</div>
+          <div><h3>Half Pan</h3><p>A free app that helps restaurant kitchens weigh and cut food waste.</p><span class="link">halfpan.app</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="about" style="padding-top:0">
+    <div class="wrap about-grid">
+      <div class="about-side">
+        <div class="eyebrow">About</div>
+        <h2>Hi, I'm Sai.</h2>
+      </div>
+      <div>
+        <p>I'm a senior at Spain Park High School in Hoover. I build AI tools that take repetitive work off small teams, so the people there can spend their time on customers instead of retyping.</p>
+        <ul class="facts">
+          <li>Built MoveShare at Waypoint Investments through QuantHub's Alabama Data Scholars internship</li>
+          <li>Co-founded Half Pan, a food waste app that started at our family's Qdoba</li>
+          <li>Alabama DECA Vice President of Career Development, 2026-27</li>
+        </ul>
+        <a class="btn ghost" href="https://www.linkedin.com/in/sai-vajaha/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="contact" style="padding-top:0">
+    <div class="wrap">
+      <div class="contact">
+        <div>
+          <h2>What does your team retype every week?</h2>
+          <p>Send me one example. I'll show you a working version on your own files, free, before you decide anything.</p>
+        </div>
+        <div class="lines">
+          <a class="btn solid" href="mailto:vs.saicharan@gmail.com?subject=Free%20demo%20for%20my%20business">Email me</a>
+          <a class="btn ghost" href="tel:+12052079977">Call (205) 207-9977</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 Cahaba Labs</span>
+    <span>Hoover, Alabama</span>
+    <span class="spacer"></span>
+    <a href="https://halfpan.app" target="_blank" rel="noopener">Half Pan</a>
+    <a href="https://www.linkedin.com/in/sai-vajaha/" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</footer>
+
+</body>
+</html>
