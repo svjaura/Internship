@@ -37,6 +37,8 @@ export function plaidErrorCode(e: unknown): string | undefined {
 /** Safe one-line description of an error for logs. Never includes headers, tokens or response data. */
 export function describePlaidError(e: unknown): string {
   if (e instanceof PlaidError) {
+    // No HTTP status: Plaid was never reached (DNS, network, timeout). The message is the fetch error.
+    if (e.statusCode === undefined && !e.body) return `Plaid not reached: ${String(e.message || "network error").slice(0, 120)}`;
     const b = (e.body && typeof e.body === "object" ? e.body : {}) as Record<string, unknown>;
     return `Plaid ${e.statusCode ?? "?"} ${String(b.error_type ?? "")}/${String(b.error_code ?? "")} request_id=${String(b.request_id ?? e.requestId ?? "")}`;
   }

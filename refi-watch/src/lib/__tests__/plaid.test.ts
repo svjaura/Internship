@@ -161,3 +161,14 @@ describe("webhookAction", () => {
     expect(webhookAction(null)).toEqual({ kind: "ignore" });
   });
 });
+
+describe("describePlaidError (safe log line)", () => {
+  it("names the Plaid error code and request id, and says when Plaid was never reached", async () => {
+    const { PlaidError } = await import("plaid");
+    const { describePlaidError } = await import("../plaid");
+    const api = new PlaidError({ statusCode: 400, body: { error_type: "ITEM_ERROR", error_code: "ITEM_LOGIN_REQUIRED", request_id: "req_9" } });
+    expect(describePlaidError(api)).toBe("Plaid 400 ITEM_ERROR/ITEM_LOGIN_REQUIRED request_id=req_9");
+    expect(describePlaidError(new PlaidError({ message: "fetch failed" }))).toBe("Plaid not reached: fetch failed");
+    expect(describePlaidError(new TypeError("x"))).toBe("TypeError");
+  });
+});
