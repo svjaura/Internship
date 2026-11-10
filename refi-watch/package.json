@@ -10,7 +10,8 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "sandbox:e2e": "tsx scripts/sandbox-e2e.ts",
-    "recover-item": "tsx scripts/recover-item.ts"
+    "recover-item": "tsx scripts/recover-item.ts",
+    "check-env": "tsx scripts/check-env.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
