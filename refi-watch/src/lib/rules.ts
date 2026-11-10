@@ -501,6 +501,16 @@ export const fmtDate = (iso: string | null | undefined): string => {
   return `${MONTHS[d.m - 1]} ${d.d}, ${d.y}`;
 };
 
+/**
+ * How current P&I was figured, in one line. Same choice as evaluate(): the note for a fixed-rate loan
+ * whose servicer reports the original amount and term; otherwise the balance over the payments left.
+ */
+export function currentPIBasis(rec: ServicerRecord, r: RuleResult): string {
+  return r.rateType === "fixed" && hasNoteTerms(rec)
+    ? `the note: ${money(rec.origination_principal_amount)} at ${pct(r.rate)} over ${termMonthsOf(rec.loan_term)} months`
+    : `balance at ${pct(r.rate)} over ${r.paymentsLeft} payments left`;
+}
+
 /** Status reason, one short line. It names the rule used. */
 export function reasonText(r: RuleResult): string {
   if (r.missing.length) return `Not reported by the servicer: ${r.missing.join(", ")}. Not checked against your rule.`;

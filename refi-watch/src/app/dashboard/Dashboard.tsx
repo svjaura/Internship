@@ -9,6 +9,7 @@ import {
   PRESETS,
   STATUS_LABEL,
   countStatuses,
+  currentPIBasis,
   evaluate,
   fmtDate,
   intish,
@@ -20,7 +21,6 @@ import {
   plural,
   pts,
   reasonText,
-  termMonthsOf,
   thr,
   type PresetId,
   type RuleResult,
@@ -370,7 +370,6 @@ function Drawer({ rec, r, s, onClose }: { rec: ServicerRecord; r: RuleResult; s:
   }, [onClose]);
   const miss = r.missing.length > 0;
   const ir = rec.interest_rate;
-  const fixed = r.rateType === "fixed";
   return (
     <div className="drawer" role="dialog" aria-modal="false" aria-labelledby="drawerTitle" tabIndex={-1} ref={ref}>
       <div className="drawer-head">
@@ -509,11 +508,7 @@ function Drawer({ rec, r, s, onClose }: { rec: ServicerRecord; r: RuleResult; s:
               <dt>Current P&amp;I</dt>
               <dd>
                 {money(r.currentPI)}
-                <small>
-                  {fixed
-                    ? `the note: ${money(rec.origination_principal_amount)} at ${pct(r.rate)} over ${termMonthsOf(rec.loan_term)} months`
-                    : `balance at ${pct(r.rate)} over ${r.paymentsLeft} payments left`}
-                </small>
+                <small>{currentPIBasis(rec, r)}</small>
               </dd>
               <dt>New P&amp;I at {pct(s.todayRate)}</dt>
               <dd>

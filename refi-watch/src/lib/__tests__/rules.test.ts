@@ -3,6 +3,7 @@ import {
   DEFAULT_SETTINGS,
   PI_FROM_BALANCE_NOTE,
   countStatuses,
+  currentPIBasis,
   evaluate,
   monthlyPI,
   reasonText,
@@ -276,8 +277,13 @@ describe("edge cases (from math_check.mjs)", () => {
       expect(r.currentPI).toBeCloseTo(expected, 6);
       expect(r.notes).toContain(PI_FROM_BALANCE_NOTE);
       expect(Number.isNaN(r.savings)).toBe(false);
+      // The detail panel names the basis actually used, not a note it doesn't have.
+      expect(currentPIBasis(rec, r)).toBe(`balance at 7.500% over ${r.paymentsLeft} payments left`);
     });
   }
+  it("names the note as the P&I basis for a fixed loan with its original amount and term", () => {
+    expect(currentPIBasis(base, ev(base))).toBe("the note: $300,000.00 at 7.500% over 360 months");
+  });
   it("for an on-schedule fixed loan, the balance-based P&I matches the note within a cent", () => {
     // Jordan Avery: $365,000 at 7.125% for 360 months; balance and payments left as of the demo date.
     const pNote = monthlyPI(365000, 7.125, 360);
