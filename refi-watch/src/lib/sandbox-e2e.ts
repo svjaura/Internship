@@ -16,6 +16,7 @@ import { POST as exchangeRoute } from "@/app/api/plaid/exchange/route";
 import { ORG_DISPLAY, plaidEnv, plaidWebhookUrl } from "./config";
 import { decryptToken } from "./crypto";
 import { DEMO_ORG_ID, getStore } from "./db";
+import { PLACEHOLDER_HOST } from "./env-check";
 import { describePlaidError, getPlaid } from "./plaid";
 import { refreshItem, type RefreshResult } from "./refresh";
 import {
@@ -95,6 +96,9 @@ export async function runSandboxE2E(opts: SandboxRunOptions = {}): Promise<Sandb
 
   const institutionId = opts.institutionId || DEFAULT_SANDBOX_INSTITUTION;
   const webhookUrl = opts.webhookUrl ?? plaidWebhookUrl() ?? "";
+  if (webhookUrl.includes(PLACEHOLDER_HOST)) {
+    throw new SandboxRunError(`PLAID_WEBHOOK_URL is still the .env.example placeholder (${PLACEHOLDER_HOST}). Set your Vercel domain, or remove it to skip the webhook.`);
+  }
   const asOf = opts.asOf ?? todayISO(ORG_DISPLAY.timeZone);
   const settings = opts.settings ?? { ...DEFAULT_SETTINGS };
   const plaid = getPlaid();

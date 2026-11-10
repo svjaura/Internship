@@ -196,6 +196,12 @@ describe("sandbox end-to-end run (Plaid SDK mocked)", () => {
     expect(calls.createPublicToken).toEqual([]);
   });
 
+  it("refuses the .env.example placeholder webhook URL (someone else's domain)", async () => {
+    process.env.PLAID_WEBHOOK_URL = "https://your-app.vercel.app/api/plaid/webhook";
+    await expect(e2e.runSandboxE2E()).rejects.toThrow(/placeholder/);
+    expect(calls.createPublicToken).toEqual([]);
+  });
+
   it("refuses to write to Supabase", async () => {
     process.env.SUPABASE_URL = "https://x.supabase.co";
     process.env.SUPABASE_ANON_KEY = "anon";

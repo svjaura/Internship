@@ -74,6 +74,7 @@ describe("checkEnv", () => {
       expect(errors({ ...good(), PLAID_WEBHOOK_URL: bad }).some((e) => e.startsWith("PLAID_WEBHOOK_URL:"))).toBe(true);
     }
     expect(warns({ ...good(), PLAID_WEBHOOK_URL: "https://refi-watch-git-main-team.vercel.app/api/plaid/webhook" }).join()).toMatch(/preview deployment/);
+    expect(errors({ ...good(), PLAID_WEBHOOK_URL: "https://your-app.vercel.app/api/plaid/webhook" }).join()).toMatch(/placeholder from \.env\.example/);
   });
 
   it("SUPABASE_URL must be the bare https project URL; PLAID_REDIRECT_URI must end with /connect/oauth", () => {

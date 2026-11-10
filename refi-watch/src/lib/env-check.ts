@@ -43,6 +43,8 @@ export const REQUIRED_VARS: ReadonlyArray<EnvVar> = [
 ];
 
 export const WEBHOOK_PATH = "/api/plaid/webhook";
+/** The example host in .env.example. Someone else's domain: never send webhooks there. */
+export const PLACEHOLDER_HOST = "your-app.vercel.app";
 export const OAUTH_PATH = "/connect/oauth";
 
 export interface EnvReport {
@@ -113,6 +115,7 @@ export function checkEnv(env: Env): EnvReport {
     if (!u) add("PLAID_WEBHOOK_URL", "error", "must be an https URL, like https://<your-domain>/api/plaid/webhook");
     else if (u.pathname !== WEBHOOK_PATH || u.search || u.hash) add("PLAID_WEBHOOK_URL", "error", `must end with ${WEBHOOK_PATH} (no trailing slash or query)`);
     else if (/^(localhost|127\.)/.test(u.hostname)) add("PLAID_WEBHOOK_URL", "error", "must be the public Vercel domain, not localhost");
+    else if (u.hostname === PLACEHOLDER_HOST) add("PLAID_WEBHOOK_URL", "error", "is still the placeholder from .env.example; use your Vercel domain");
     else if (u.hostname.includes("-git-")) add("PLAID_WEBHOOK_URL", "warn", "looks like a preview deployment URL; use the production domain so Plaid isn't blocked by preview protection");
     else add("PLAID_WEBHOOK_URL", "ok", "https, ends with /api/plaid/webhook");
   }
