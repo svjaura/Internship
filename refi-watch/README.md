@@ -232,4 +232,16 @@ plaintext tokens and account numbers longer than 4 characters.
 - A missing field is shown as missing, never guessed, and blocks Ready.
 - VA and FHA streamline starting points (from the demo) are in the preset menu.
 
+## Known issues
+
+- **`npm audit`: 8 moderate findings, all one advisory** (checked Nov 10, 2026): minimatch
+  7.0.0 to 11.0.0, denial of service from crafted glob patterns
+  ([GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249)). It comes in through
+  the lint toolchain only: `eslint-config-next@16.4.6` > `typescript-eslint@8.72.2` >
+  `@typescript-eslint/typescript-estree` > `minimatch@10.2.6`; the other 7 entries are that
+  chain. Dev dependency, never in the deployed app, and it only sees this repo's own lint globs.
+  `npm audit fix` changes nothing. The only offered fix, `npm audit fix --force`, downgrades
+  `eslint-config-next` to 15.5.29, which doesn't match Next 16, so it is not applied. Both
+  packages are already at their latest release; recheck when `typescript-eslint` updates.
+
 Fonts: Inter (SIL Open Font License 1.1), the same files the demo embeds.
