@@ -17,7 +17,7 @@ function readSaved(): string {
 const noop = () => () => {};
 
 /** Re-opens Plaid Link with the same link token after the borrower comes back from their bank. */
-export default function OAuthReturn() {
+export default function OAuthReturn({ contactFirstName, phone }: { contactFirstName: string; phone: string }) {
   const raw = useSyncExternalStore(noop, readSaved, () => "");
   const saved: Saved = useMemo(() => {
     try {
@@ -26,7 +26,9 @@ export default function OAuthReturn() {
       return null;
     }
   }, [raw]);
-  const [phase, setPhase] = useState<"linking" | "saving" | "done" | "error">("linking");
+  // save_error: Plaid Link finished (the connection exists) but our save failed. Never ask to connect
+  // again then: a second connection would use another Trial slot. The borrower calls; we recover it.
+  const [phase, setPhase] = useState<"linking" | "saving" | "done" | "error" | "save_error">("linking");
   const href = typeof window !== "undefined" ? window.location.href : undefined;
 
   const onSuccess = useCallback<PlaidLinkOnSuccess>(
@@ -41,7 +43,7 @@ export default function OAuthReturn() {
       try {
         sessionStorage.removeItem(OAUTH_STORE_KEY);
       } catch {}
-      setPhase(res && (res.ok || res.status === 409) ? "done" : "error");
+      setPhase(res && (res.ok || res.status === 409) ? "done" : "save_error");
     },
     [saved],
   );
@@ -52,6 +54,17 @@ export default function OAuthReturn() {
       <>
         <h1 className="site-h">You&apos;re connected.</h1>
         <p className="site-lead">Your mortgage is connected. Your password stayed with Plaid and your bank. You can close this page.</p>
+      </>
+    );
+  }
+  if (phase === "save_error") {
+    return (
+      <>
+        <h1 className="site-h">Almost done</h1>
+        <p className="site-lead">
+          Your servicer connected, but we couldn&apos;t finish saving it. Please don&apos;t connect again: call {contactFirstName} at{" "}
+          <a href={`tel:${phone.replace(/[^0-9]/g, "")}`}>{phone}</a> and we&apos;ll finish it for you.
+        </p>
       </>
     );
   }

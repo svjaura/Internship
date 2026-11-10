@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ORG_DISPLAY } from "@/lib/config";
 import OAuthReturn from "../OAuthReturn";
 import SiteFrame from "../SiteFrame";
 
@@ -12,7 +13,7 @@ export const metadata: Metadata = { title: "Finishing your connection · Weber M
 export default function OAuthPage() {
   return (
     <SiteFrame>
-      <OAuthReturn />
+      <OAuthReturn contactFirstName={ORG_DISPLAY.contactFirstName} phone={ORG_DISPLAY.phone} />
     </SiteFrame>
   );
 }

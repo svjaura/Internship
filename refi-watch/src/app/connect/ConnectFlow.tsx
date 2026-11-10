@@ -31,6 +31,9 @@ export default function ConnectFlow(p: ConnectFlowProps) {
   const [token, setToken] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [simulated, setSimulated] = useState(false);
+  // After Plaid Link succeeds the connection exists. Never offer to connect again from here:
+  // a second connection would use another Trial slot. The borrower calls; we recover it.
+  const [canRetry, setCanRetry] = useState(true);
   const [servicer, setServicer] = useState<string | null>(null);
   const reconnect = p.initialState === "reconnect";
 
@@ -80,11 +83,12 @@ export default function ConnectFlow(p: ConnectFlowProps) {
         } catch {}
         setPhase("done");
       } catch {
-        setError("Your servicer connected, but we couldn't save it. Please call us so we can finish it for you.");
+        setCanRetry(false);
+        setError(`Your servicer connected, but we couldn't finish saving it. Please don't connect again: call ${p.contactFirstName} at ${p.phone} and we'll finish it for you.`);
         setPhase("error");
       }
     },
-    [p.invite],
+    [p.invite, p.contactFirstName, p.phone],
   );
 
   const onExit = useCallback<PlaidLinkOnExit>((err) => {
@@ -188,7 +192,7 @@ export default function ConnectFlow(p: ConnectFlowProps) {
         </section>
       </div>
       <label className="consent" htmlFor="consent">
-        <input id="consent" type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} disabled={phase !== "consent" && phase !== "error"} />
+        <input id="consent" type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} disabled={!canRetry || (phase !== "consent" && phase !== "error")} />
         <span>
           I agree to share these mortgage details from my servicer with {p.orgName} through Plaid, so {p.orgName} can tell me when a refinance could lower my payment. This is not a credit check. I can disconnect any time.
         </span>
@@ -199,7 +203,7 @@ export default function ConnectFlow(p: ConnectFlowProps) {
         </p>
       )}
       <div className="site-actions">
-        <button className="btn btn-primary btn-lg" type="button" disabled={!consent || (phase !== "consent" && phase !== "error")} onClick={start}>
+        <button className="btn btn-primary btn-lg" type="button" disabled={!consent || !canRetry || (phase !== "consent" && phase !== "error")} onClick={start}>
           <IconLock />
           {phase === "starting" || phase === "linking" ? "Opening Plaid..." : phase === "saving" ? "Saving..." : reconnect ? "Reconnect with Plaid" : "Connect with Plaid"}
         </button>

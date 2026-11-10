@@ -9,7 +9,8 @@
     "lint": "eslint",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "sandbox:e2e": "tsx scripts/sandbox-e2e.ts"
+    "sandbox:e2e": "tsx scripts/sandbox-e2e.ts",
+    "recover-item": "tsx scripts/recover-item.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
