@@ -230,12 +230,18 @@ export function missingFields(rec: ServicerRecord): string[] {
   if (!isDate(rec.maturity_date)) miss.push("maturity date");
   if (!isDate(rec.next_payment_due_date)) miss.push("next due date");
   if (!isDate(rec.origination_date)) miss.push("origination date");
-  if (ir.type === "fixed") {
-    if (!(isNum(rec.origination_principal_amount) && rec.origination_principal_amount > 0)) miss.push("original amount");
-    if (!(termMonthsOf(rec.loan_term) > 0)) miss.push("loan term");
-  }
+  // Original amount and loan term are not required: if the servicer doesn't report them, the current
+  // P&I is calculated from the servicer's current balance, rate and payments left instead (see evaluate).
   return miss;
 }
+
+/** True when a fixed-rate loan has what's needed for the scheduled payment on the note. */
+export function hasNoteTerms(rec: ServicerRecord): boolean {
+  return isNum(rec.origination_principal_amount) && rec.origination_principal_amount > 0 && termMonthsOf(rec.loan_term) > 0;
+}
+
+export const PI_FROM_BALANCE_NOTE =
+  "Current P&I calculated from the servicer's current balance, rate and payments left (original amount or term not reported).";
 
 export function loanKind(rec: Pick<ServicerRecord, "loan_type_description">): "VA" | "FHA" | null {
   const d = String(rec.loan_type_description || "");
@@ -366,10 +372,11 @@ export function evaluate(
   const orig = parseDate(rec.origination_date as string);
   const paymentsLeft = paymentsLeftBetween(parseDate(rec.next_payment_due_date as string), parseDate(rec.maturity_date as string));
   const monthsSinceClosing = Math.max(0, wholeMonthsBetween(orig, asOf));
-  const noteTerm = fixed ? termMonthsOf(rec.loan_term) : NaN;
-  // Fixed rate: the scheduled payment on the note. ARM: the balance at the note rate over the payments left.
-  const currentPI = fixed
-    ? monthlyPI(rec.origination_principal_amount as number, rate, noteTerm)
+  const fromNote = fixed && hasNoteTerms(rec);
+  // Fixed rate: the scheduled payment on the note. ARM, or a fixed loan whose servicer doesn't report the
+  // original amount or term: the current balance at the note rate over the payments left.
+  const currentPI = fromNote
+    ? monthlyPI(rec.origination_principal_amount as number, rate, termMonthsOf(rec.loan_term))
     : monthlyPI(balance, rate, paymentsLeft);
   const atMaturity = paymentsLeft === 0;
   const newTermMonths = s.newTerm === "360" ? 360 : paymentsLeft;
@@ -418,7 +425,7 @@ export function evaluate(
     if (wholeMonthsBetween(orig, e) < k) e = addMonths({ y: e.y, m: e.m, d: 1 }, 1);
     eligibleDate = isoDate(e);
   }
-  const notes = ir.type === "variable" ? [ARM_NOTE] : [];
+  const notes = ir.type === "variable" ? [ARM_NOTE] : fromNote ? [] : [PI_FROM_BALANCE_NOTE];
   return {
     ...base,
     missing: [],

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   DEFAULT_SETTINGS,
+  PI_FROM_BALANCE_NOTE,
   countStatuses,
   evaluate,
   monthlyPI,
@@ -263,9 +264,26 @@ describe("edge cases (from math_check.mjs)", () => {
     ["maturity_date", "maturity date"],
     ["next_payment_due_date", "next due date"],
     ["origination_date", "origination date"],
-    ["origination_principal_amount", "original amount"],
-    ["loan_term", "loan term"],
   ];
+  for (const k of ["origination_principal_amount", "loan_term"] as const) {
+    it(`null ${k} on a fixed loan falls back to the balance-based P&I, with a note, and is still checked`, () => {
+      const rec = JSON.parse(JSON.stringify(base)) as ServicerRecord & Record<string, unknown>;
+      rec[k] = null;
+      const r = ev(rec);
+      expect(r.status).not.toBe("missing");
+      expect(r.missing).toEqual([]);
+      const expected = monthlyPI(rec.current_balance as number, rec.interest_rate.percentage as number, r.paymentsLeft);
+      expect(r.currentPI).toBeCloseTo(expected, 6);
+      expect(r.notes).toContain(PI_FROM_BALANCE_NOTE);
+      expect(Number.isNaN(r.savings)).toBe(false);
+    });
+  }
+  it("for an on-schedule fixed loan, the balance-based P&I matches the note within a cent", () => {
+    // Jordan Avery: $365,000 at 7.125% for 360 months; balance and payments left as of the demo date.
+    const pNote = monthlyPI(365000, 7.125, 360);
+    const pBal = monthlyPI(355446.06, 7.125, 330);
+    expect(Math.abs(pNote - pBal)).toBeLessThan(0.01);
+  });
   for (const [k, label] of NULLS) {
     it(`null ${k} gives Missing data, names "${label}", never guessed, blocks Ready`, () => {
       const rec = JSON.parse(JSON.stringify(base)) as ServicerRecord & Record<string, unknown>;

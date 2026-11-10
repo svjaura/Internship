@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore
 import { IconCheck, IconClock, IconDot, IconInfo, IconRefresh, IconX } from "@/components/icons";
 import {
   ARM_NOTE,
+  PI_FROM_BALANCE_NOTE,
   DEFAULT_SETTINGS,
   PRESETS,
   STATUS_LABEL,
@@ -421,12 +422,22 @@ function Drawer({ rec, r, s, onClose }: { rec: ServicerRecord; r: RuleResult; s:
             <RuleLines r={r} rec={rec} />
           </div>
         )}
-        {r.notes.length > 0 && (
+        {r.notes.includes(ARM_NOTE) && (
           <div className="d-block">
             <div className="notice notice-clay">
               <IconInfo />
               <div>
                 <b>{ARM_NOTE}</b> This loan has an adjustable rate. Plaid reports the current rate and that it is variable. It does not report when the rate adjusts next.
+              </div>
+            </div>
+          </div>
+        )}
+        {r.notes.includes(PI_FROM_BALANCE_NOTE) && (
+          <div className="d-block">
+            <div className="notice notice-stone">
+              <IconInfo />
+              <div>
+                <b>How current P&amp;I was figured.</b> The servicer didn&apos;t report this loan&apos;s original amount or term, so current P&amp;I is calculated from the servicer&apos;s current balance at the note rate over the payments left. For a loan paid on schedule, that matches the note payment. If the borrower paid extra principal, it will read a little low.
               </div>
             </div>
           </div>
